@@ -38,6 +38,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     GestioneRipetizioniTheme {
-        Greeting("Android")
+        Greeting("Spingere!")
     }
 }
