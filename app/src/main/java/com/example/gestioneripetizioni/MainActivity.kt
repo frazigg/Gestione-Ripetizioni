@@ -32,7 +32,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(text = "ciao a tutti ragazzi, vi presento:  $name!", modifier = modifier)
 }
 
 @Preview(showBackground = true)
