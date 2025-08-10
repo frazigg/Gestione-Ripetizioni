@@ -18,6 +18,8 @@ data class Insegnante (
                 !email.isBlank()
     }
 
+//Eseguiamo dei controlli sulle variabili di Insegnante
+
     //Controlliamo che il nome non sia vuoto
     fun getSafeNome(): String{
         return nome.trim().ifBlank { "Nome non valido" }
@@ -47,7 +49,4 @@ data class Insegnante (
     fun getSafeOrari(): List<String>{
         return orari.filter { it.isNotBlank() }.ifEmpty { listOf("Orari non specificati") }
     }
-
-
-
 }
