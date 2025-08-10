@@ -1,4 +1,6 @@
-package Model
+package com.example.gestioneripetizioni.model
+
+import com.example.gestioneripetizioni.model.Feedback
 
 data class Insegnante (
     var id: String = "",

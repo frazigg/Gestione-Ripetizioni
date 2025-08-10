@@ -1,4 +1,4 @@
-package Model
+package com.example.gestioneripetizioni.model
 
 data class Feedback (
     var id: String? = null,
