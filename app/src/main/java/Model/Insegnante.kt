@@ -43,6 +43,11 @@ data class Insegnante (
         return materie.filter { it.isNotBlank() }.ifEmpty { listOf("Materie non specificate") }
     }
 
+    //Controlliamo che la lista degli orari non sia vuota
+    fun getSafeOrari(): List<String>{
+        return orari.filter { it.isNotBlank() }.ifEmpty { listOf("Orari non specificati") }
+    }
+
 
 
 }
