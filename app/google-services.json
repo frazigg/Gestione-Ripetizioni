@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "103652449155",
+    "project_id": "appripetizioni",
+    "storage_bucket": "appripetizioni.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103652449155:android:01608e41246af48e6ef4b6",
+        "android_client_info": {
+          "package_name": "com.example.ripetizioni"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpOX3c9IMs6lZDfoIxUUPjaZlr_C00uDo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
