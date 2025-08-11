@@ -41,7 +41,7 @@ object FeedbackService{
                 autore = autore.trim().ifBlank{ "Anonimo" }
             )
 
-            feedbacksRef.child(pathString = feedbackId).setValue(feedback)
+            feedbacksRef.child(feedbackId).setValue(feedback)
                 .addOnSuccessListener { onSuccess() }
                 .addOnFailureListener { e -> onFailure( e.message ?: "Errore durante l'aggiunta del feedback." ) }
         } else {
@@ -54,7 +54,7 @@ object FeedbackService{
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ){
-        feedbacksRef.child(pathString = id).removeValue()
+        feedbacksRef.child( id).removeValue()
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener{ e -> onFailure(e.message ?: "Errore durante l'eliminazione del feedback.") }
     }
