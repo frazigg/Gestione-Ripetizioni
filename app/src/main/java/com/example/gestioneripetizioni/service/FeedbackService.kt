@@ -59,5 +59,28 @@ object FeedbackService{
             .addOnFailureListener{ e -> onFailure(e.message ?: "Errore durante l'eliminazione del feedback.") }
     }
 
+    fun getFeedbacks(onResult: (List<Feedback>) -> Unit){
+        feedbacksRef.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot){
+                val feedbacks = mutableListOf<Feedback>()
 
+                for(childSnapshot in snapshot.children){
+                    try{
+                        val feedback = childSnapshot.getValue(Feedback::class.java)
+                        if (feedback != null && feedback.isValid()){
+                            feedbacks.add(feedback)
+                        }
+                    }catch (e: Exception){
+                        println("Errore nella deserializzazione del feedback: ${e.message}")
+                    }
+                }
+                onResult(feedbacks)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                println("Errore nel caricamento del feedback: ${error.message}")
+                onResult(emptyList())
+            }
+        })
+    }
 }
