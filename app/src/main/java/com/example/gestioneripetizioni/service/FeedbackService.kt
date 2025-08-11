@@ -32,7 +32,20 @@ object FeedbackService{
             return
         }
 
+        val feedbackId = feedbacksRef.push().key
+        if (feedbackId != null){
+            val feedback = Feedback(
+                id = feedbackId,
+                insegnanteId = insegnanteId,
+                testo = testo.trim(),
+                autore = autore.trim().isBlank{ "Anonimo" }
+            )
 
-
+            feedbacksRef.child(pathString = feedbackId).setValue(feedback)
+                .addOnSuccessListener { onSuccess() }
+                .addOnFailureListener { e -> onFailure( e.massage ?: "Errore durante l'aggiunta del feedback." ) }
+        } else {
+            onFailure( "Impossibile generare ID per il feedback." )
+        }
     }
 }
