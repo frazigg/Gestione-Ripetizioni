@@ -38,14 +38,26 @@ object FeedbackService{
                 id = feedbackId,
                 insegnanteId = insegnanteId,
                 testo = testo.trim(),
-                autore = autore.trim().isBlank{ "Anonimo" }
+                autore = autore.trim().ifBlank{ "Anonimo" }
             )
 
             feedbacksRef.child(pathString = feedbackId).setValue(feedback)
                 .addOnSuccessListener { onSuccess() }
-                .addOnFailureListener { e -> onFailure( e.massage ?: "Errore durante l'aggiunta del feedback." ) }
+                .addOnFailureListener { e -> onFailure( e.message ?: "Errore durante l'aggiunta del feedback." ) }
         } else {
             onFailure( "Impossibile generare ID per il feedback." )
         }
     }
+
+    fun eliminaFeedback(
+        id: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ){
+        feedbacksRef.child(pathString = id).removeValue()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener{ e -> onFailure(e.message ?: "Errore durante l'eliminazione del feedback.") }
+    }
+
+
 }
