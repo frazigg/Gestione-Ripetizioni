@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.tasks.await
 
-/*creazione della classe InsegnanteService per la gestione degli insegnanti */
+//creazione della classe InsegnanteService per la gestione degli insegnanti
 object InsegnanteService {
     init {
         /* disabilita la modalità offline del Firebase */
@@ -229,17 +229,27 @@ object InsegnanteService {
         onSuccess: () -> Unit,
         onFailur: (String) -> Unit
     ) {
+
+        //Prova ad eliminare l'utente dal sistema di autenticazione
         auth.currentUser?.delete()
             ?.addOnCompleteListener { authTask ->
+
+                //Se l'eliminazione ha successo
                 if(authTask.isSuccessful){
+
+                    //Procedi a rimuovere i dati dell'insegnante dal database
                     insegnantiRef.child(id).removeValue()
                         .addOnSuccessListener {
+
+                            //Dopo la rimozione dell'insegnante, rimuovi anche i feedback associati
                             feedbackRef.orderByChild("insegnanteId").equalTo(id)
                                 .addListenerForSingleValueEvent(object: ValueEventListener{
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         for (childSnapshot in snapshot.children){
                                             childSnapshot.ref.removeValue()
                                         }
+
+                                        //Callback di successo
                                         onSuccess()
                                     }
 
@@ -262,10 +272,13 @@ object InsegnanteService {
         insegnanteId: String,
         onResult: (List<Feedback>) -> Unit
     ){
+        //Se l'ID è vuoto, restituisci una lista vuota
         if(insegnanteId.isBlank()){
             onResult(emptyList())
             return
         }
+
+            //Cerco nel nodo feedbacks tutti gli elementi che corrispondono all'ID fornito
             feedbackRef.orderByChild("insegnanteId").equalTo(insegnanteId)
                 .addListenerForSingleValueEvent(object: ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -273,15 +286,20 @@ object InsegnanteService {
 
                         for(childSnapshot in snapshot.children){
                                 val feedback = childSnapshot.getValue(Feedback::class.java)
+
+                            //Controlla la validità del feedback e che appartiene veramente a quell'insegnante
                                 if(feedback != null && feedback.isValid() && feedback.insegnanteId == insegnanteId) {
                                     feedbacks.add(feedback)
                                 }
                         }
 
+                        //Restituisce la lista dei feedback
                         onResult(feedbacks)
                     }
 
                     override fun onCancelled(error: DatabaseError) {
+
+                        //In caso di errore, restituisce una lista vuota
                         onResult(emptyList())
                     }
                 })
