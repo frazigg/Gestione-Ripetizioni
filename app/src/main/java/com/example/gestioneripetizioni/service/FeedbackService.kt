@@ -66,27 +66,34 @@ object FeedbackService{
             .addOnFailureListener{ e -> onFailure(e.message ?: "Errore durante l'eliminazione del feedback.") }
     }
 /* creazione del metodo getFeedback per ottenere la lista di tutti i feedback nel database */
+
     fun getFeedbacks(onResult: (List<Feedback>) -> Unit){
         feedbacksRef.addListenerForSingleValueEvent(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot)
+            override fun onDataChange(snapshot: DataSnapshot){
+
         /* viene creata una lista che conterrà i feedback validi presenti nel dabase */
             val feedbacks = mutableListOf<Feedback>()
+
             /* con il ciclo for si scorrono tutti i feedback e vengono creati degli oggetti di tipo Feedback */
                 for(childSnapshot in snapshot.children){
                     try{
                         val feedback = childSnapshot.getValue(Feedback::class.java)
+
                    /* se gli oggetti creati non sono nulli e tutti i loro campi sono validi venogno aggiunti alla lista creata precedentemente */
                         if (feedback != null && feedback.isValid()){
                             feedbacks.add(feedback)
                         }
+
                 /* se si verifica un errore con un feedback viene gestito con un messaggio e si passa al feedback successivo */
                     }catch (e: Exception){
                         println("Errore nella deserializzazione del feedback: ${e.message}")
                     }
                 }
+
             /* restituisce la lista completa di feedback validi */
                 onResult(feedbacks)
             }
+
         /* gestione  degli errori di lettura restituiendo una lista vuota se il caricamento del feedback fallisce */
             override fun onCancelled(error: DatabaseError) {
                 println("Errore nel caricamento del feedback: ${error.message}")

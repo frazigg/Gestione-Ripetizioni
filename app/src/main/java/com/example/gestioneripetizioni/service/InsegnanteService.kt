@@ -1,4 +1,3 @@
-@file:Suppress("ReplacePrintlnWithLogging")
 
 package com.example.gestioneripetizioni.service
 
@@ -113,45 +112,28 @@ object InsegnanteService {
 
     //Funzione per determinare qual è l'insegnante corrente
     fun getCurrentInsegnante(onResult: (Insegnante?) -> Unit){
-        try{
+
+        //Recupera l'utente da FireBase Authentication
             val firebaseUser = auth.currentUser
             if (firebaseUser != null){
-                println("DEBUG: getCurrentInsegnante - Utente Firebase trovato: ${firebaseUser.uid}")
+
+                //Accedi al nodo specifico dell'insegnante attraverso l'uid e legge i dati, infine restituisce l'insegnante
                 insegnantiRef.child(firebaseUser.uid).addListenerForSingleValueEvent(object: ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot){
-                            try{
-                                println("DEBUG: getCurrentInsegnante - Dati ricevuti da Firebase")
                                 val insegnante = snapshot.getValue(Insegnante::class.java)
-                                if (insegnante != null){
-                                    println("DEBUG: getCurrentInsegnante - Insegnante deserializzato: ${insegnante.id}")
                                     currentInsegnante = insegnante
                                     onResult(insegnante)
-                                } else {
-                                    println("DEBUG: getCurrentInsegnante - Insegnante null dopo deserializzazione")
-                                    onResult(null)
-                                }
-                            } catch (e: Exception){
-                                println("DEBUG: getCurrentInsegnante - Errore nella deserializzazione: ${e.message}")
-                                e.printStackTrace()
-                                onResult(null)
-                            }
                         }
 
+                    //Se l'operazione viene annullata restituisce null
                         override fun onCancelled(error: DatabaseError) {
-                            println("DEBUG: getCurrentIngegnante - Errore Firebase: ${error.message}")
                             onResult(null)
                         }
                     })
             } else {
-                println("DEBUG: getCurrentInsegnante - Nessun utente Firebase autenticato")
                 onResult(null)
             }
-        } catch (e: Exception){
-            println("DEBUG: getCurrentInsegnante - Errore generale: ${e.message}")
-            e.printStackTrace()
-            onResult(null)
         }
-    }
 
     //Funzione per aggiornati i dati del profilo di un insegnante già registrato
     fun updateInsegnanteProfile(
@@ -163,9 +145,12 @@ object InsegnanteService {
         onSuccess: () -> Unit,
         onFailur: (String) -> Unit
     ) {
-        //
+
+        //Recupera l'ID dell'utente corrente
         val userId = auth.currentUser?.uid
         if (userId != null) {
+
+            //Mappa con i dati da aggiornare
             val updates = mapOf(
                 "nome" to nome,
                 "cognome" to cognome,
@@ -173,8 +158,12 @@ object InsegnanteService {
                 "materie" to materie,
                 "orari" to orari
             )
+
+            //Aggiornamento dei dati sul nodo specifico dell'insegnante
             insegnantiRef.child(userId).updateChildren(updates)
                 .addOnSuccessListener {
+
+                    //Se l'aggiornamento va a buon fine, aggiorna l'oggetto locale
                     currentInsegnante?.apply {
                         this.nome = nome
                         this.cognome = cognome
@@ -182,9 +171,13 @@ object InsegnanteService {
                         this.materie = materie
                         this.orari = orari
                     }
+
+                    //Callback di successo
                     onSuccess()
                 }
                 .addOnFailureListener { e ->
+
+                    //Callback di errore
                     onFailur(e.message ?: "Errore durante l'aggiornamewnto del profilo.")
                 }
         } else {
@@ -198,14 +191,22 @@ object InsegnanteService {
         orario: String?,
         onResult: (List<Insegnante>) -> Unit
     ) {
+
+        //Legge tutti i dati dal nodo insegnanti
         insegnantiRef.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val risultati = mutableListOf<Insegnante>()
                 for(childSnapshot in snapshot.children){
                     val insegnante = childSnapshot.getValue(Insegnante::class.java)
                     if(insegnante != null){
+
+                        //Controlla se la materia corrisponde (o se il filtro è vuoto)
                         val matchesMateria = materia.isNullOrBlank()||insegnante.materie.any{it.equals(materia, ignoreCase = true) }
+
+                        //Controlla se la materia corrisponde (o se il filtro è vuoto)
                         val matchesOrario = orario.isNullOrBlank()||insegnante.orari.any{it.equals(orario, ignoreCase = true) }
+
+                        //Se rispetta i criteri aggiunge l'insegnante ai risultati disponibili
                         if(matchesMateria && matchesOrario){
                             risultati.add(insegnante)
                         }
@@ -215,6 +216,8 @@ object InsegnanteService {
             }
 
             override fun onCancelled(error: DatabaseError){
+
+                //In caso di errore restituisce una lista vuota
                 onResult(emptyList())
             }
         })
@@ -263,35 +266,24 @@ object InsegnanteService {
             onResult(emptyList())
             return
         }
-
-        try{
             feedbackRef.orderByChild("insegnanteId").equalTo(insegnanteId)
                 .addListenerForSingleValueEvent(object: ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val feedbacks = mutableListOf<Feedback>()
 
                         for(childSnapshot in snapshot.children){
-                            try{
                                 val feedback = childSnapshot.getValue(Feedback::class.java)
                                 if(feedback != null && feedback.isValid() && feedback.insegnanteId == insegnanteId) {
                                     feedbacks.add(feedback)
                                 }
-                            } catch (e: Exception){
-                                println("DEBUG: Errore nella deserializzazione del feedback: ${e.message}")
-                            }
                         }
 
                         onResult(feedbacks)
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        println("DEBUG: Errore generale in getFeedbackForInsegnante: ${error.message}")
                         onResult(emptyList())
                     }
                 })
-        }catch (e: Exception){
-            println("DEBUG: Errore generale in getFeedbackForInsegnante: ${e.message}")
-            onResult(emptyList())
-        }
     }
 }
