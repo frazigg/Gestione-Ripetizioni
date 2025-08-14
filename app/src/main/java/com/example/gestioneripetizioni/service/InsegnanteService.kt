@@ -74,5 +74,33 @@ object InsegnanteService {
         }
     }
 
+    suspend fun loginInsegnante(email: String, password: String): Insegnante{
+        try{
+            //Autentica l'utente con Firebase Auth
+            val authResult = auth.signInWithEmailAndPassword(email,password).await()
+            val firebaseUser = authResult.user ?: throw IllegalStateException("Login fallito: utente non trovato.")
+
+            //Scarica i dati dell'insegnante dal databse
+            val dataSnapshot = insegnantiRef.child(firebaseUser.uid).get().await()
+            val insegnante = dataSnapshot.getValue(Insegnante::class.java)?: throw IllegalStateException("Dati dell'insegnante " +
+                    "non trovati nel databse. La deserializzazione potrebbe essere fallita. ")
+
+            //Imposta l'utente
+            currentInsegnante = insegnante
+
+            return insegnante
+        }catch (e : Exception) {
+            throw e
+        }
+    }
+
+    //Funzione per il logout dell'insegnante
+    fun logoutInsegnante() {
+        auth.signOut()
+        currentInsegnante = null
+    }
+
+
+
 
 }
