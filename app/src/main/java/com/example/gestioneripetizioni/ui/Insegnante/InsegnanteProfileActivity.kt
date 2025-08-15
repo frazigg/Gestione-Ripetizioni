@@ -1,5 +1,6 @@
 package com.example.gestioneripetizioni.ui.Insegnante
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -16,6 +17,7 @@ import com.example.gestioneripetizioni.model.Insegnante
 import com.example.gestioneripetizioni.service.InsegnanteService
 
 
+@SuppressLint("Registered")
 class InsegnanteProfileActivity : AppCompatActivity() {
 
     //'lateinit' indica che verranno inizializzate in un secondo momento

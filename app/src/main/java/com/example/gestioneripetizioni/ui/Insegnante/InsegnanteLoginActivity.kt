@@ -14,6 +14,7 @@ import com.example.gestioneripetizioni.service.InsegnanteService
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import kotlinx.coroutines.launch
 
+@SuppressLint("Registered")
 public class InsegnanteLoginActivity : AppCompatActivity() {
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
