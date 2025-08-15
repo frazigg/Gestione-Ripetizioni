@@ -28,20 +28,12 @@ class InsegnanteFeedbackAdapter(private var feedbackList: List<Feedback>):
     }
 
     fun aggiornaFeedback(newFeedbackList : List<Feedback>){
-        try{
-            val safeFeedbackList = newFeedbackList.filter { it != null && it.isValid() }
+            val safeFeedbackList = newFeedbackList.filter { it.isValid() }
             feedbackList = safeFeedbackList
 
             if(hasObservers()){
                 notifyDataSetChanged()
             }
-        }catch (e: Exception){
-            println("DEBUG: Errore nell'aggiornamento della lista feedback: ${e.message}")
-            feedbackList = emptyList()
-            if(hasObservers()){
-                notifyDataSetChanged()
-            }
-        }
     }
 
     class FeedbackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -49,21 +41,9 @@ class InsegnanteFeedbackAdapter(private var feedbackList: List<Feedback>):
         private val autoreFeedback: TextView = itemView.findViewById(R.id.autoreFeedback)
 
         fun bind(feedback: Feedback){
-            println("DEBUG: Binding feedback: ${feedback.id}")
-            try{
-                val testo = feedback.getSafeTesto()
-                val autore = feedback.getSafeAutore()
-                println("DEBUG: Testo: $testo, Autore: $autore")
-
-                testoFeedback.text = testo
-                autoreFeedback.text = "- $autore"
+                testoFeedback.text = feedback.getSafeTesto()
+                autoreFeedback.text = "- ${feedback.getSafeAutore()}"
                 println("DEBUG: Binging completato con successo")
-            } catch (e: Exception){
-              println("DEBUG: Errore nel binding del feedback: ${e.message}")
-              e.printStackTrace()
-              testoFeedback.text = "[Errore nel caricamento del feedback]"
-              autoreFeedback.text = "- Anonimo"
-            }
         }
     }
 }
