@@ -16,9 +16,6 @@ import com.example.gestioneripetizioni.model.Insegnante
 import com.example.gestioneripetizioni.service.InsegnanteService
 
 
-
-
-
 class InsegnanteProfileActivity : AppCompatActivity() {
 
     //'lateinit' indica che verranno inizializzate in un secondo momento
