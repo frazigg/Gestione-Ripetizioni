@@ -143,7 +143,7 @@ object InsegnanteService {
         materie: List<String>,
         orari: List<String>,
         onSuccess: () -> Unit,
-        onFailur: (String) -> Unit
+        onFailure: (String) -> Unit
     ) {
 
         //Recupera l'ID dell'utente corrente
@@ -178,10 +178,10 @@ object InsegnanteService {
                 .addOnFailureListener { e ->
 
                     //Callback di errore
-                    onFailur(e.message ?: "Errore durante l'aggiornamewnto del profilo.")
+                    onFailure(e.message ?: "Errore durante l'aggiornamewnto del profilo.")
                 }
         } else {
-            onFailur("Utente non autenticato.")
+            onFailure("Utente non autenticato.")
         }
     }
 
@@ -227,7 +227,7 @@ object InsegnanteService {
     fun eliminaInsegnante(
         id:String,
         onSuccess: () -> Unit,
-        onFailur: (String) -> Unit
+        onFailure: (String) -> Unit
     ) {
 
         //Prova ad eliminare l'utente dal sistema di autenticazione
@@ -254,15 +254,15 @@ object InsegnanteService {
                                     }
 
                                     override fun onCancelled(error: DatabaseError) {
-                                        onFailur(error.message)
+                                        onFailure(error.message)
                                     }
                                 })
                         }
                         .addOnFailureListener { e ->
-                            onFailur(e.message ?: "Errore durante l'eliminazione dell'insegnante dal database.")
+                            onFailure(e.message ?: "Errore durante l'eliminazione dell'insegnante dal database.")
                         }
                 } else {
-                    onFailur(authTask.exception?.message ?: "Errore durante l'eliminazione dell'utente dall'autenticazione.")
+                    onFailure(authTask.exception?.message ?: "Errore durante l'eliminazione dell'utente dall'autenticazione.")
                 }
             }
     }
