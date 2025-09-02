@@ -18,33 +18,46 @@
         android:layout_marginBottom="48dp"
         android:textColor="@color/primary" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnStudente"
         android:text="Studente"
         android:layout_marginBottom="16dp"
-        android:padding="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
         android:textSize="18sp"
+        app:cornerRadius="25dp"
         android:backgroundTint="@color/primary" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnAdmim"
-        android:text="Amministratore"
-        android:padding="16dp"
-        android:textSize="18sp"
-        android:backgroundTint="@color/primary" />
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnInsegnante"
         android:text="Insegnante"
         android:layout_marginBottom="16dp"
-        android:padding="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
         android:textSize="18sp"
-        android:backgroundTint="@color/primary" />
+        app:cornerRadius="25dp"
+        android:backgroundTint="@color/secondary" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnAdmim"
+        android:text="Amministratore"
+        android:layout_marginBottom="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:textSize="18sp"
+        app:cornerRadius="25dp"
+        android:backgroundTint="@color/accent" />
 
 </LinearLayout>
