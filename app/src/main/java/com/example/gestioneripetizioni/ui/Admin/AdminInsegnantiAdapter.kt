@@ -4,11 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.compose.material3.FabPosition
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestioneripetizioni.R
 import com.example.gestioneripetizioni.model.Insegnante
-import com.example.gestioneripetizioni.ui.Studente.InsegnantiAdapter
 
 class AdminInsegnantiAdapter(private val onInsegnanteClick: (Insegnante) -> Unit ) :
     RecyclerView.Adapter<AdminInsegnantiAdapter.InsegnanteViewHolder>(){

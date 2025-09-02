@@ -1,21 +1,22 @@
 {
   "project_info": {
-    "project_number": "103652449155",
-    "project_id": "appripetizioni",
-    "storage_bucket": "appripetizioni.firebasestorage.app"
+    "project_number": "977526052941",
+    "firebase_url": "https://progettomobili-e5b92-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "progettomobili-e5b92",
+    "storage_bucket": "progettomobili-e5b92.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:103652449155:android:01608e41246af48e6ef4b6",
+        "mobilesdk_app_id": "1:977526052941:android:2153e3211e629697ed6404",
         "android_client_info": {
-          "package_name": "com.example.ripetizioni"
+          "package_name": "com.example.gestioneripetizioni"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCpOX3c9IMs6lZDfoIxUUPjaZlr_C00uDo"
+          "current_key": "AIzaSyCJ8K_v_KH7SIUZJIxAep2xQtWOh3gKl94"
         }
       ],
       "services": {

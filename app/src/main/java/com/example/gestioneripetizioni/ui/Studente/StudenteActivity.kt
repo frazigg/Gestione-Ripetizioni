@@ -1,23 +1,18 @@
-package com.example.gestioneripetizioni.ui.studente
+package com.example.gestioneripetizioni.ui.Studente
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.unit.IntRect
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestioneripetizioni.R
 import com.example.gestioneripetizioni.model.Insegnante
 import com.example.gestioneripetizioni.service.InsegnanteService
 import com.example.gestioneripetizioni.service.FeedbackService
-import com.example.gestioneripetizioni.ui.Insegnante.InsegnanteActivity
-import com.example.gestioneripetizioni.ui.Studente.InsegnantiAdapter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
