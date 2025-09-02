@@ -7,10 +7,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestioneripetizioni.R
 import com.example.gestioneripetizioni.model.Insegnante
+import android.widget.Button
 
 //Adapter per la RecyclerView, mostra una lista di insegnanti
-class InsegnantiAdapter (private val onInsegnanteClick: (Insegnante) -> Unit) :
-    RecyclerView.Adapter<InsegnantiAdapter.InsegnanteViewHolder>() {
+class InsegnantiAdapter (
+    private val onEmailClick: (Insegnante) -> Unit,
+    private val onCallClick: (Insegnante) -> Unit,
+    private val onFeedbackClick: (Insegnante) -> Unit
+): RecyclerView.Adapter<InsegnantiAdapter.InsegnanteViewHolder>() {
 
      //Lista che contiene i dati degli insegnanti da mostrare
     private var insegnanti = listOf<Insegnante>()
@@ -48,6 +52,9 @@ class InsegnantiAdapter (private val onInsegnanteClick: (Insegnante) -> Unit) :
         private val tvMaterie: TextView = itemView.findViewById(R.id.tvMaterie)
         private val tvOrari: TextView = itemView.findViewById(R.id.tvOrari)
         private val tvContatti: TextView = itemView.findViewById(R.id.tvContatti)
+        private val btnEmail: Button = itemView.findViewById(R.id.btnEmail)
+        private val btnChiama: Button = itemView.findViewById(R.id.btnChiama)
+        private val btnFeedback: Button = itemView.findViewById(R.id.btnFeedback)
 
         fun bind(insegnante: Insegnante) {
             tvNome.text = "${insegnante.nome} ${insegnante.cognome}"
@@ -59,7 +66,9 @@ class InsegnantiAdapter (private val onInsegnanteClick: (Insegnante) -> Unit) :
             itemView.setOnClickListener {
 
                 //Quando viene cliccato esegue la funzione onInsegnanteClick per l'insegnante specificato come argomento
-                onInsegnanteClick(insegnante)
+                btnEmail.setOnClickListener { onEmailClick(insegnante) }
+                btnChiama.setOnClickListener { onCallClick(insegnante) }
+                btnFeedback.setOnClickListener { onFeedbackClick(insegnante) }
             }
         }
     }

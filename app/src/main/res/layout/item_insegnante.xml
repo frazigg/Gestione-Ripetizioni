@@ -33,7 +33,6 @@
             android:id="@+id/tvOrari"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:layout_marginBottom="8dp"/>
 
         <TextView
@@ -44,6 +43,42 @@
             android:textColor="@color/secondary"
             android:layout_marginBottom="8dp"/>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEmail"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="Email" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnChiama"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:text="Chiama" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFeedback"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="Feedback" />
+
+        </LinearLayout>
+
+</LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
+
+

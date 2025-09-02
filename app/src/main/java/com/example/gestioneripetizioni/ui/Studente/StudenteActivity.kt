@@ -30,25 +30,32 @@ class StudenteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_studente)
-
         recyclerView = findViewById(R.id.recyclerViewInsegnanti)
         etMateria = findViewById(R.id.etMateria)
         etOrario = findViewById(R.id.etOrario)
         btnCerca = findViewById(R.id.btnCerca)
 
-        adapter = InsegnantiAdapter { insegnante ->
-            mostraOpzioniContatto(insegnante)
-        }
+        adapter = InsegnantiAdapter(
+            onEmailClick = { insegnante ->
+                inviaEmail(insegnante)
+            },
+            onCallClick = { insegnante ->
+                chiamaTelefono(insegnante)
+            },
+            onFeedbackClick = { insegnante ->
+                mostraDialogFeedback(insegnante)
+            }
+        )
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-
         btnCerca.setOnClickListener {
             cercaInsegnanti()
         }
 
         cercaInsegnanti()
     }
+
 
     private fun cercaInsegnanti() {
         insegnantiListener?.let { InsegnanteService.getInsegnantiRef().removeEventListener(it) }
@@ -93,23 +100,6 @@ class StudenteActivity : AppCompatActivity() {
         super.onDestroy()
         insegnantiListener?.let { InsegnanteService.getInsegnantiRef().removeEventListener(it) }
     }
-
-    private fun mostraOpzioniContatto(insegnante: Insegnante) {
-        val options = arrayOf("Invia Email, Chiama, Lascia Feedback")
-
-        AlertDialog.Builder(this)
-            .setTitle("Contatta ${insegnante.nome} ${insegnante.cognome}")
-            .setItems(options) { _, which ->
-                when (which) {
-                    0 -> inviaEmail(insegnante)
-                    1 -> chiamaTelefono(insegnante)
-                    2 -> mostraDialogFeedback(insegnante)
-                }
-            }
-            .setNegativeButton("Annulla", null)
-            .show()
-    }
-
     private fun inviaEmail(insegnante: Insegnante) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:${insegnante.email}")
@@ -138,10 +128,7 @@ class StudenteActivity : AppCompatActivity() {
             .setView(dialogView)
             .setPositiveButton("Invia") { _, _ ->
                 val testo = etFeedback.text.toString()
-                val insegnanteId = insegnante.id ?: run {
-                    Toast.makeText(this, "ID insegnante non disponibile per il feedback.", Toast.LENGTH_SHORT).show()
-                    return@setPositiveButton
-                }
+                val insegnanteId = insegnante.id
                 if (testo.isNotBlank()) {
                     FeedbackService.aggiungiFeedback(
                         insegnanteId, testo, "Studente anonimo",
