@@ -35,11 +35,11 @@ class InsegnanteFeedbackAdapter(private var feedbackList: List<Feedback>):
     fun aggiornaFeedback(newFeedbackList : List<Feedback>){
 
         //Filtra la nuova lista per includere solo gli elementi considerati validi
-            val safeFeedbackList = newFeedbackList.filter { it.isValid() }
-            feedbackList = safeFeedbackList
+        val safeFeedbackList = newFeedbackList.filter { it.isValid() }
+        feedbackList = safeFeedbackList
 
         //Notifica alla RecyclerView che i dati sono cambiati
-            notifyDataSetChanged()
+        notifyDataSetChanged()
 
     }
 
@@ -53,8 +53,8 @@ class InsegnanteFeedbackAdapter(private var feedbackList: List<Feedback>):
         fun bind(feedback: Feedback){
 
             //Imposta il testo del feedback e dell'autore nelle rispettive TextView
-                testoFeedback.text = feedback.getSafeTesto()
-                autoreFeedback.text = "- ${feedback.getSafeAutore()}"
+            testoFeedback.text = feedback.getSafeTesto()
+            autoreFeedback.text = "- ${feedback.getSafeAutore()}"
         }
     }
 }

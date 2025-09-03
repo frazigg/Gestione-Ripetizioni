@@ -11,31 +11,36 @@ import com.example.gestioneripetizioni.model.Insegnante
 class AdminInsegnantiAdapter(private val onInsegnanteClick: (Insegnante) -> Unit ) :
     RecyclerView.Adapter<AdminInsegnantiAdapter.InsegnanteViewHolder>(){
 
+    //inizializzazione della lista che contiene gli insegnanti
     private var insegnanti = listOf<Insegnante>()
 
+    //metodo per l'aggiornamento della lista
     fun aggiornaInsegnanti(nuoviInsegnanti: List<Insegnante>){
         insegnanti = nuoviInsegnanti
         notifyDataSetChanged()
     }
 
-
+    //metodo per la creazione di nuove 'righe' per permettere una buona visualizzazione
     override fun onCreateViewHolder( parent: ViewGroup, viewType: Int): AdminInsegnantiAdapter.InsegnanteViewHolder {
-        val view = LayoutInflater.from(parent.context).
-        inflate(R.layout.item_admin_insegnante, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_admin_insegnante, parent, false)
         return InsegnanteViewHolder(view)
     }
 
+    //metodo chiamato per mostrare a schermo una nuova 'riga'
     override fun onBindViewHolder(holder: InsegnanteViewHolder, position: Int) {
         holder.bind(insegnanti[position])
     }
 
+    //determina quante righe devono essere visualizzate a schermo
     override fun getItemCount() = insegnanti.size
 
+    //classe che rappresenta una singola riga della lista
     inner class InsegnanteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         private val tvNome: TextView = itemView.findViewById(R.id.tvNome)
         private val tvMaterie: TextView = itemView.findViewById(R.id.tvMaterie)
         private val tvOrari: TextView = itemView.findViewById(R.id.tvOrari)
 
+        //metodo per collegare i dati di un oggetto Insegnante alla riga
         fun bind(insegnante: Insegnante){
             tvNome.text = "${insegnante.nome} ${insegnante.cognome} (ID: ${insegnante.id}) "
             tvMaterie.text = "Materie: ${insegnante.materie.joinToString(", ")}"

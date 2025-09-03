@@ -8,10 +8,7 @@ import com.google.firebase.database.ValueEventListener
 
 /* creazione della classe FeedbackService per la gestione dei feedback */
 object FeedbackService{
-    //init{
-    /* disabilita la modalità offline del Firebase */
-       // FirebaseDatabase.getInstance().setPersistenceEnabled(false)
-   // }
+
 /* collegamento con il database */
     private val database = FirebaseDatabase.getInstance("https://progettomobili-e5b92-default-rtdb.europe-west1.firebasedatabase.app/")
 /* creazione di un riferimento a feedbacks all'interno del database */

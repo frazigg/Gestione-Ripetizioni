@@ -13,14 +13,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //determina l'azione che comporta il click sul pulsante 'Studente'
         findViewById<Button>(R.id.btnStudente).setOnClickListener {
             startActivity(Intent(this, StudenteActivity::class.java))
         }
 
+        //determina l'azione che comporta il click sul pulsante 'Insegnante'
         findViewById<Button>(R.id.btnInsegnante).setOnClickListener {
             startActivity(Intent(this, InsegnanteLoginActivity::class.java))
         }
 
+        //determina l'azione che comporta il click sul pulsante 'Amministratore'
         findViewById<Button>(R.id.btnAdmim).setOnClickListener {
             startActivity(Intent(this, AdminActivity::class.java))
         }

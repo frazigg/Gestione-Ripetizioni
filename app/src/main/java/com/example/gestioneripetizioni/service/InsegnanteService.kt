@@ -114,26 +114,26 @@ object InsegnanteService {
     fun getCurrentInsegnante(onResult: (Insegnante?) -> Unit){
 
         //Recupera l'utente da FireBase Authentication
-            val firebaseUser = auth.currentUser
-            if (firebaseUser != null){
+        val firebaseUser = auth.currentUser
+        if (firebaseUser != null){
 
-                //Accedi al nodo specifico dell'insegnante attraverso l'uid e legge i dati, infine restituisce l'insegnante
-                insegnantiRef.child(firebaseUser.uid).addListenerForSingleValueEvent(object: ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot){
-                                val insegnante = snapshot.getValue(Insegnante::class.java)
-                                    currentInsegnante = insegnante
-                                    onResult(insegnante)
-                        }
+            //Accedi al nodo specifico dell'insegnante attraverso l'uid e legge i dati, infine restituisce l'insegnante
+            insegnantiRef.child(firebaseUser.uid).addListenerForSingleValueEvent(object: ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot){
+                        val insegnante = snapshot.getValue(Insegnante::class.java)
+                        currentInsegnante = insegnante
+                        onResult(insegnante)
+                    }
 
                     //Se l'operazione viene annullata restituisce null
-                        override fun onCancelled(error: DatabaseError) {
-                            onResult(null)
-                        }
-                    })
-            } else {
-                onResult(null)
-            }
+                    override fun onCancelled(error: DatabaseError) {
+                        onResult(null)
+                    }
+                })
+        } else {
+            onResult(null)
         }
+    }
 
     //Funzione per aggiornati i dati del profilo di un insegnante già registrato
     fun updateInsegnanteProfile(
@@ -278,30 +278,30 @@ object InsegnanteService {
             return
         }
 
-            //Cerco nel nodo feedbacks tutti gli elementi che corrispondono all'ID fornito
-            feedbackRef.orderByChild("insegnanteId").equalTo(insegnanteId)
-                .addListenerForSingleValueEvent(object: ValueEventListener{
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val feedbacks = mutableListOf<Feedback>()
+        //Cerco nel nodo feedbacks tutti gli elementi che corrispondono all'ID fornito
+        feedbackRef.orderByChild("insegnanteId").equalTo(insegnanteId)
+            .addListenerForSingleValueEvent(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val feedbacks = mutableListOf<Feedback>()
 
-                        for(childSnapshot in snapshot.children){
-                                val feedback = childSnapshot.getValue(Feedback::class.java)
+                    for(childSnapshot in snapshot.children){
+                        val feedback = childSnapshot.getValue(Feedback::class.java)
 
-                            //Controlla la validità del feedback e che appartiene veramente a quell'insegnante
-                                if(feedback != null && feedback.isValid() && feedback.insegnanteId == insegnanteId) {
-                                    feedbacks.add(feedback)
-                                }
+                        //Controlla la validità del feedback e che appartiene veramente a quell'insegnante
+                        if(feedback != null && feedback.isValid() && feedback.insegnanteId == insegnanteId) {
+                            feedbacks.add(feedback)
                         }
-
-                        //Restituisce la lista dei feedback
-                        onResult(feedbacks)
                     }
 
-                    override fun onCancelled(error: DatabaseError) {
+                    //Restituisce la lista dei feedback
+                    onResult(feedbacks)
+                }
 
-                        //In caso di errore, restituisce una lista vuota
-                        onResult(emptyList())
-                    }
-                })
+                override fun onCancelled(error: DatabaseError) {
+
+                    //In caso di errore, restituisce una lista vuota
+                    onResult(emptyList())
+                }
+            })
     }
 }

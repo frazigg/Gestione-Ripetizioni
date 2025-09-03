@@ -98,13 +98,13 @@ class InsegnanteProfileActivity : AppCompatActivity() {
 
     //Popola i campi della UI con i dati dell'oggetto Insegnante
     private fun loadBasicData(insegnante: Insegnante){
-            tvNome.text = "${insegnante.getSafeNome()} ${insegnante.getSafeCognome()}"
-            tvEmail.text = insegnante.getSafeEmail()
-            etNome.setText(insegnante.getSafeNome())
-            etCognome.setText(insegnante.getSafeCognome())
-            etTelefono.setText(insegnante.getSafeTelefono())
-            etMaterie.setText(insegnante.getSafeMaterie().joinToString(", "))
-            etOrari.setText(insegnante.getSafeOrari().joinToString(", "))
+        tvNome.text = "${insegnante.getSafeNome()} ${insegnante.getSafeCognome()}"
+        tvEmail.text = insegnante.getSafeEmail()
+        etNome.setText(insegnante.getSafeNome())
+        etCognome.setText(insegnante.getSafeCognome())
+        etTelefono.setText(insegnante.getSafeTelefono())
+        etMaterie.setText(insegnante.getSafeMaterie().joinToString(", "))
+        etOrari.setText(insegnante.getSafeOrari().joinToString(", "))
     }
 
     //Carica in modo sicuro i feedback
@@ -177,6 +177,7 @@ class InsegnanteProfileActivity : AppCompatActivity() {
             }
         )
     }
+
     private fun logout(){
         InsegnanteService.logoutInsegnante()
         val intent = Intent(this, InsegnanteLoginActivity::class.java)
